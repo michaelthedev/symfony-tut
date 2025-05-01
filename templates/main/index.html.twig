@@ -1,0 +1,12 @@
+<h1>Hello There</h1>
+
+{% if userIsMichael %}
+    <p>Hello Michael!</p>
+{% else %}
+    <p>Who are you?</p>
+{% endif %}
+
+<p>Twig allows dot notation for array</p>
+<p>PHP version gotten from `app` array: {{ app.php_version }}</p>
+<p>Allows functions too</p>
+<p>App name changed to uppercase in twig: {{ app.name|upper }}</p>

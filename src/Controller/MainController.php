@@ -7,15 +7,23 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class MainController
+final class MainController extends BaseController
 {
     #[Route('/main')]
     public function index(): Response
     {
-        // return html
-        return new Response(
-            '<h1>Hello, World!</h1></body>',
-            Response::HTTP_OK,
-        );
+        return $this->render('main/index.html.twig', [
+            'userIsMichael' => false,
+            'users' => [
+                'Michael',
+                'David',
+                'Daniel',
+                'Ezekiel',
+            ],
+			'app' => [
+				'name' => 'Synt',
+				'php_version' => PHP_VERSION,
+			]
+        ]);
     }
 }
