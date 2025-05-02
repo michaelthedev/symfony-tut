@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Hello World{% endblock %}
+
 {% block body %}
 <h1>Hello There</h1>
 
@@ -14,4 +16,6 @@
 <p>Allows functions too</p>
 <p>App name changed to uppercase in twig: {{ app.name|upper }}</p>
 
+<p><a href="{{ path('api.collections.index') }}">Linked route</a></p>
+<p><a href="{{ path('api.collections.show', { id: 0 }) }}">Linked route with param</a></p>
 {% endblock %}

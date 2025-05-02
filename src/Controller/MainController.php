@@ -20,10 +20,10 @@ final class MainController extends BaseController
                 'Daniel',
                 'Ezekiel',
             ],
-			'app' => [
-				'name' => 'Synt',
-				'php_version' => PHP_VERSION,
-			]
+            'app' => [
+                'name' => 'Synt',
+                'php_version' => PHP_VERSION,
+            ],
         ]);
     }
 }

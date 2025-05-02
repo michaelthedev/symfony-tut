@@ -11,8 +11,12 @@ abstract class BaseController extends AbstractController
 {
     final protected function response(
         string $message,
-        array|\JsonSerializable $data = [],
+        array|\JsonSerializable|null $data = null,
+        int $status = 200,
     ): Response {
-        return new Response();
+        return $this->json([
+            'message' => $message,
+            'data' => $data,
+        ], $status);
     }
 }
