@@ -7,7 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-final class Product
+#[ORM\HasLifecycleCallbacks]
+final class Product extends BaseEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,11 +23,6 @@ final class Product
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getName(): ?string
     {
@@ -62,5 +58,17 @@ final class Product
         $this->description = $description;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'description' => $this->getDescription(),
+            'created_at' => $this->getCreatedAt()?->format('c'),
+            'updated_at' => $this->getUpdatedAt()?->format('c'),
+        ];
     }
 }

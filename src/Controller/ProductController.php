@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/products')]
-final class ProductController extends AbstractController
+final class ProductController extends BaseController
 {
     #[Route('/', name: 'products.index')]
     public function index(ProductRepository $repository): Response
@@ -28,21 +28,27 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'products.create')]
+    #[Route('/create', methods: ['GET'], name: 'products.create')]
     public function create(): Response
     {
         return $this->render('product/create.html.twig');
     }
 
-    public function store(Request $request, ProductRepository $repository): Response
+    #[Route('/create', methods: ['POST'], name: 'products.store')]
+    public function store(Request $request, EntityManagerInterface $manager): Response
     {
         $product = new Product();
-        $product->setName($request->request->get('name'));
-        $product->setDescription($request->request->get('description'));
-        $product->setPrice((float) $request->request->get('price'));
+        $product->setName($request->get('name'));
+        $product->setDescription($request->get('description'));
+        $product->setPrice((float) $request->get('price'));
 
-        // $repository->findBy($product);
+        $manager->persist($product);
+        $manager->flush();
 
-        return $this->redirectToRoute('products.index');
+        return $this->response(
+            message: 'Product created',
+            data: $product->toArray(),
+            status: Response::HTTP_CREATED
+        );
     }
 }
